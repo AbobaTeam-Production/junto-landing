@@ -1,0 +1,1202 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Junto — смотрим вместе</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg:        oklch(0.18 0.012 50);
+    --bg-deep:   oklch(0.14 0.010 50);
+    --surface:   oklch(0.22 0.014 50);
+    --surface-2: oklch(0.26 0.014 50);
+    --hairline:  oklch(0.30 0.014 50);
+    --ink:       oklch(0.96 0.005 80);
+    --ink-2:     oklch(0.78 0.012 70);
+    --ink-3:     oklch(0.58 0.012 65);
+    --ink-4:     oklch(0.42 0.012 60);
+    --amber:     oklch(0.80 0.155 75);
+    --amber-dim: oklch(0.80 0.155 75 / 0.18);
+    --amber-ink: oklch(0.20 0.04 75);
+    --live:      oklch(0.74 0.14 145);
+    --display: "General Sans", "Inter", -apple-system, sans-serif;
+    --text:    "Inter", -apple-system, sans-serif;
+    --mono:    "JetBrains Mono", ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--text);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+    overflow-x: hidden;
+  }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; cursor: pointer; }
+
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
+  .mono { font-family: var(--mono); letter-spacing: 1.6px; text-transform: uppercase; font-size: 11px; }
+  .eyebrow { color: var(--amber); }
+
+  /* ── Top nav ─────────────────────────────────── */
+  nav.top {
+    position: sticky; top: 0; z-index: 100;
+    backdrop-filter: blur(18px) saturate(140%);
+    background: oklch(0.18 0.012 50 / 0.78);
+    border-bottom: 1px solid var(--hairline);
+  }
+  nav.top .row {
+    display: flex; align-items: center; gap: 28px;
+    padding: 14px 32px;
+    max-width: 1240px; margin: 0 auto;
+  }
+  .logo {
+    display: flex; align-items: center; gap: 10px;
+    font-family: var(--display); font-size: 20px; font-weight: 600; letter-spacing: -0.4px;
+  }
+  .logo-mark {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--amber);
+    box-shadow: 0 0 0 4px oklch(0.80 0.155 75 / 0.16);
+  }
+  nav.top .links { display: flex; gap: 22px; font-size: 14px; color: var(--ink-2); }
+  nav.top .links a:hover { color: var(--ink); }
+  nav.top .spacer { flex: 1; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 16px; border-radius: 999px;
+    font-size: 13px; font-weight: 600; letter-spacing: 0.1px;
+    border: 1px solid var(--hairline); background: transparent; color: var(--ink);
+    transition: all .15s;
+  }
+  .btn:hover { border-color: var(--ink-3); }
+  .btn.primary {
+    background: var(--amber); color: var(--amber-ink); border-color: transparent;
+    box-shadow: 0 8px 24px -8px oklch(0.80 0.155 75 / 0.5);
+  }
+  .btn.primary:hover { transform: translateY(-1px); box-shadow: 0 12px 32px -8px oklch(0.80 0.155 75 / 0.6); }
+  .btn.lg { padding: 14px 22px; font-size: 14px; }
+  .btn.xl { padding: 18px 26px; font-size: 15px; border-radius: 14px; }
+
+  /* ── Hero ─────────────────────────────────── */
+  .hero {
+    position: relative;
+    padding: 90px 0 60px;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; pointer-events: none;
+    top: -200px; right: -100px; width: 720px; height: 720px;
+    background: radial-gradient(circle, oklch(0.80 0.155 75 / 0.18) 0%, transparent 60%);
+  }
+  .hero::after {
+    content: ''; position: absolute; pointer-events: none;
+    bottom: -200px; left: -150px; width: 600px; height: 600px;
+    background: radial-gradient(circle, oklch(0.74 0.14 145 / 0.10) 0%, transparent 60%);
+  }
+  .hero .grid {
+    display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 60px;
+    position: relative; align-items: center;
+  }
+  h1.headline {
+    font-family: var(--display); font-weight: 600;
+    font-size: clamp(48px, 6vw, 84px); line-height: 0.98;
+    letter-spacing: -2.5px; margin: 22px 0 24px;
+    text-wrap: balance;
+  }
+  h1.headline em { color: var(--amber); font-style: italic; font-weight: 500; }
+  .hero p.lede {
+    font-size: 18px; line-height: 1.5; color: var(--ink-2);
+    max-width: 540px; margin: 0 0 32px;
+  }
+  .hero .cta-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+  .hero .meta { display: flex; gap: 18px; margin-top: 28px; color: var(--ink-3); font-size: 12px; }
+  .hero .meta b { color: var(--ink); font-weight: 600; }
+  .hero .meta .dot { color: var(--ink-4); }
+
+  /* Hero device mock — phone with cinema diorama */
+  .device {
+    position: relative;
+    width: 100%; max-width: 460px;
+    aspect-ratio: 393/720;
+    background: var(--bg-deep);
+    border-radius: 48px;
+    border: 1px solid var(--hairline);
+    box-shadow:
+      0 60px 120px -30px rgba(0,0,0,0.7),
+      inset 0 0 0 1px oklch(0.30 0.014 50 / 0.4);
+    overflow: hidden;
+    margin-left: auto;
+    transform: rotate(-3deg);
+  }
+  .device::before {
+    content: ''; position: absolute; top: 14px; left: 50%; transform: translateX(-50%);
+    width: 110px; height: 30px; background: #000; border-radius: 18px; z-index: 5;
+  }
+  .device .scr {
+    position: absolute; inset: 14px; border-radius: 36px; overflow: hidden;
+    background: var(--bg-deep);
+  }
+  .device-pad { padding: 56px 22px 22px; height: 100%; display: flex; flex-direction: column; }
+  .cinema {
+    aspect-ratio: 21/10; background: #000; border-radius: 12px; position: relative; overflow: hidden;
+    background:
+      repeating-linear-gradient(115deg, oklch(0.32 0.04 60) 0 14px, oklch(0.24 0.03 60) 14px 15px),
+      #000;
+    box-shadow: 0 30px 60px -20px oklch(0.10 0.012 50 / 0.8);
+  }
+  .cinema .live-tag {
+    position: absolute; top: 8px; left: 8px;
+    padding: 3px 7px; border-radius: 4px;
+    background: oklch(0.10 0.012 50 / 0.7); backdrop-filter: blur(6px);
+    display: flex; align-items: center; gap: 5px;
+    font-family: var(--mono); font-size: 8px; letter-spacing: 1.2px;
+    color: var(--live); text-transform: uppercase;
+  }
+  .cinema .live-tag span { width: 4px; height: 4px; border-radius: 50%; background: var(--live); }
+  .cinema .sub {
+    position: absolute; bottom: 8px; left: 0; right: 0; text-align: center;
+    font-family: var(--mono); font-size: 9px; color: #fff;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.7);
+  }
+  .seats {
+    margin-top: 16px; display: flex; justify-content: space-around;
+  }
+  .seat { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .seat .av {
+    width: 32px; height: 32px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 600; color: #fff;
+  }
+  .seat .av.s1 { background: linear-gradient(135deg, oklch(0.70 0.15 30), oklch(0.55 0.12 30)); }
+  .seat .av.s2 { background: linear-gradient(135deg, oklch(0.70 0.15 75), oklch(0.55 0.12 75)); }
+  .seat .av.s3 { background: linear-gradient(135deg, oklch(0.70 0.15 220), oklch(0.55 0.12 220)); }
+  .seat .av.s4 { background: linear-gradient(135deg, oklch(0.70 0.15 340), oklch(0.55 0.12 340)); }
+  .seat .ground {
+    width: 26px; height: 6px; background: var(--surface); border-top: 1px solid var(--hairline);
+    border-radius: 0 0 5px 5px;
+  }
+  .device-meta {
+    margin-top: 18px;
+    font-family: var(--mono); font-size: 9px; letter-spacing: 1.4px; color: var(--ink-3); text-transform: uppercase;
+  }
+  .chat-bubble {
+    margin-top: 8px;
+    background: var(--surface); border: 1px solid var(--hairline);
+    border-radius: 12px; padding: 10px 12px;
+    font-size: 13px; color: var(--ink);
+  }
+  .chat-bubble b { color: var(--amber); font-weight: 600; font-size: 11px; letter-spacing: 0.4px; display: block; margin-bottom: 2px; }
+
+  /* Floating download chips on top of device */
+  .floating-chips {
+    position: absolute; right: -14px; top: 18%;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .floating-chip {
+    background: var(--surface); border: 1px solid var(--hairline);
+    border-radius: 14px; padding: 10px 14px;
+    display: flex; align-items: center; gap: 10px;
+    box-shadow: 0 14px 30px -10px rgba(0,0,0,0.5);
+    transform: rotate(3deg);
+  }
+  .floating-chip:nth-child(2) { transform: rotate(3deg) translateX(8px); }
+  .floating-chip svg { flex-shrink: 0; }
+  .floating-chip .lbl { font-family: var(--mono); font-size: 9px; letter-spacing: 1.2px; color: var(--ink-3); text-transform: uppercase; }
+  .floating-chip .name { font-weight: 600; font-size: 13px; }
+
+  /* ── Section base ─────────────────────────── */
+  section { padding: 100px 0; position: relative; }
+  section h2 {
+    font-family: var(--display); font-weight: 600;
+    font-size: clamp(36px, 4.2vw, 56px); line-height: 1.02;
+    letter-spacing: -1.4px; margin: 14px 0 18px; text-wrap: balance;
+  }
+  section h2 em { color: var(--amber); font-style: italic; font-weight: 500; }
+  section .sub-lede {
+    color: var(--ink-2); font-size: 17px; max-width: 620px; margin: 0 0 56px;
+  }
+  .section-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; margin-bottom: 56px; }
+  .section-head > div { max-width: 680px; }
+  .section-head .sub-lede { margin-bottom: 0; }
+
+  /* ── Features bento ──────────────────────── */
+  .features {
+    display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px;
+    grid-auto-rows: 220px;
+  }
+  .feature {
+    background: var(--surface); border: 1px solid var(--hairline);
+    border-radius: 22px; padding: 24px;
+    position: relative; overflow: hidden;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .feature.span-3 { grid-column: span 3; }
+  .feature.span-2 { grid-column: span 2; }
+  .feature.span-4 { grid-column: span 4; }
+  .feature.tall { grid-row: span 2; }
+  .feature h3 { font-family: var(--display); font-size: 22px; font-weight: 600; margin: 0; letter-spacing: -0.3px; }
+  .feature p { font-size: 14px; color: var(--ink-2); margin: 8px 0 0; line-height: 1.5; }
+  .feature .icon {
+    width: 44px; height: 44px; border-radius: 12px;
+    background: var(--amber-dim); color: var(--amber);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .feature .icon.live { background: oklch(0.74 0.14 145 / 0.16); color: var(--live); }
+  .feature.dark { background: var(--bg-deep); }
+  .feature .stripes {
+    position: absolute; inset: 0; opacity: 0.4; pointer-events: none;
+    background: repeating-linear-gradient(135deg, transparent 0 14px, oklch(0.30 0.014 50 / 0.35) 14px 15px);
+  }
+  .feature .glow {
+    position: absolute; pointer-events: none;
+  }
+
+  /* Sync visual */
+  .sync-vis {
+    position: absolute; right: -40px; bottom: -30px;
+    display: flex; gap: 6px; align-items: end; transform: rotate(-6deg);
+  }
+  .sync-vis .bar {
+    width: 8px; background: var(--amber); border-radius: 4px;
+  }
+  .sync-vis .bar:nth-child(1) { height: 30px; opacity: 0.4; }
+  .sync-vis .bar:nth-child(2) { height: 56px; opacity: 0.6; }
+  .sync-vis .bar:nth-child(3) { height: 80px; opacity: 0.85; }
+  .sync-vis .bar:nth-child(4) { height: 56px; opacity: 0.6; }
+  .sync-vis .bar:nth-child(5) { height: 30px; opacity: 0.4; }
+
+  /* Sources strip */
+  .sources-strip {
+    display: flex; gap: 18px; flex-wrap: wrap;
+  }
+  .source-pill {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--bg-deep); border: 1px solid var(--hairline);
+    border-radius: 999px; padding: 10px 16px;
+    font-family: var(--mono); font-size: 11px; color: var(--ink-2); letter-spacing: 0.5px;
+  }
+  .source-pill svg { color: var(--amber); }
+
+  /* Reactions */
+  .react-row { display: flex; gap: 12px; align-items: center; padding: 6px 0 2px; }
+  .react-bubble {
+    width: 46px; height: 46px; border-radius: 50%;
+    background: var(--bg-deep); border: 1px solid var(--hairline);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; line-height: 1;
+    flex-shrink: 0;
+  }
+  .react-bubble:nth-child(1) { transform: translateY(-6px) rotate(-7deg); }
+  .react-bubble:nth-child(3) { transform: translateY(3px) rotate(5deg); }
+  .react-bubble:nth-child(5) { transform: translateY(-3px) rotate(-3deg); }
+
+  /* Voice waves */
+  .voice-vis { display: flex; gap: 4px; align-items: center; }
+  .voice-vis .v {
+    width: 4px; background: var(--live); border-radius: 2px;
+  }
+  .voice-vis .v:nth-child(1) { height: 14px; }
+  .voice-vis .v:nth-child(2) { height: 22px; }
+  .voice-vis .v:nth-child(3) { height: 30px; }
+  .voice-vis .v:nth-child(4) { height: 22px; }
+  .voice-vis .v:nth-child(5) { height: 14px; }
+  .voice-vis .v:nth-child(6) { height: 28px; }
+  .voice-vis .v:nth-child(7) { height: 18px; }
+
+  /* ── Download section ──────────────────────── */
+  .download-row {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 22px;
+  }
+  .dl-card {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 24px; padding: 36px;
+    display: flex; flex-direction: column; gap: 22px;
+    position: relative; overflow: hidden;
+  }
+  .dl-card::after {
+    content: ''; position: absolute; right: -80px; top: -80px;
+    width: 240px; height: 240px;
+    border-radius: 50%; opacity: 0.18; pointer-events: none;
+  }
+  .dl-card.android::after { background: radial-gradient(circle, oklch(0.74 0.14 145), transparent 70%); }
+  .dl-card.windows::after { background: radial-gradient(circle, oklch(0.80 0.155 75), transparent 70%); }
+  .dl-head {
+    display: flex; align-items: center; gap: 16px;
+    position: relative;
+  }
+  .dl-head .platform-icon {
+    width: 56px; height: 56px; border-radius: 14px;
+    background: var(--bg-deep); border: 1px solid var(--hairline);
+    display: flex; align-items: center; justify-content: center; color: var(--ink);
+  }
+  .dl-head .name { font-family: var(--display); font-size: 26px; font-weight: 600; letter-spacing: -0.4px; }
+  .dl-head .sub { color: var(--ink-3); font-size: 13px; margin-top: 2px; }
+  .dl-meta {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
+    border-top: 1px solid var(--hairline);
+    padding-top: 18px;
+  }
+  .dl-meta div { display: flex; flex-direction: column; gap: 4px; }
+  .dl-meta .k { font-family: var(--mono); font-size: 9px; letter-spacing: 1.4px; color: var(--ink-3); text-transform: uppercase; }
+  .dl-meta .v { font-size: 14px; font-weight: 600; }
+  .dl-foot { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .dl-foot .ghost {
+    background: transparent; border: 1px solid var(--hairline);
+    color: var(--ink-2); padding: 12px 16px; border-radius: 12px; font-size: 13px;
+  }
+  .dl-foot .ghost:hover { color: var(--ink); border-color: var(--ink-3); }
+
+  .other-platforms {
+    margin-top: 28px;
+    display: flex; gap: 18px; flex-wrap: wrap;
+    padding-top: 22px; border-top: 1px dashed var(--hairline);
+    color: var(--ink-3); font-size: 13px; align-items: center;
+  }
+  .other-platforms a { color: var(--ink-2); border-bottom: 1px dotted var(--hairline); }
+  .other-platforms a:hover { color: var(--amber); border-color: var(--amber); }
+
+  /* ── How-it-works steps ──────────────────── */
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; counter-reset: step; }
+  .step {
+    background: var(--surface); border: 1px solid var(--hairline);
+    border-radius: 22px; padding: 28px;
+    position: relative;
+  }
+  .step::before {
+    counter-increment: step;
+    content: counter(step, decimal-leading-zero);
+    font-family: var(--display); font-weight: 600; font-size: 56px;
+    color: var(--ink-4); letter-spacing: -2px;
+    line-height: 1; display: block; margin-bottom: 14px;
+  }
+  .step h3 { font-family: var(--display); font-size: 22px; margin: 0 0 8px; letter-spacing: -0.3px; }
+  .step p { color: var(--ink-2); font-size: 14px; line-height: 1.5; margin: 0; }
+  .step .tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-top: 14px;
+    font-family: var(--mono); font-size: 10px; letter-spacing: 1.4px; color: var(--amber); text-transform: uppercase;
+  }
+
+  /* ── Stats / by the numbers ─────────────── */
+  .stats {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    border: 1px solid var(--hairline); border-radius: 22px;
+    overflow: hidden;
+  }
+  .stat {
+    padding: 32px; border-right: 1px solid var(--hairline);
+    background: var(--surface);
+  }
+  .stat:last-child { border-right: none; }
+  .stat .num {
+    font-family: var(--display); font-weight: 600;
+    font-size: 48px; line-height: 1; letter-spacing: -1.5px;
+    color: var(--amber);
+  }
+  .stat .lbl {
+    margin-top: 10px; font-family: var(--mono); font-size: 10px;
+    letter-spacing: 1.4px; color: var(--ink-3); text-transform: uppercase;
+  }
+  .stat .desc { margin-top: 6px; font-size: 13px; color: var(--ink-2); }
+
+  /* ── FAQ ─────────────────────────────────── */
+  .faq { max-width: none; }
+  .faq details {
+    border-bottom: 1px solid var(--hairline);
+    padding: 22px 0; cursor: pointer;
+  }
+  .faq summary {
+    font-family: var(--display); font-size: 20px; font-weight: 600; letter-spacing: -0.3px;
+    list-style: none; display: flex; align-items: center; gap: 16px;
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after {
+    content: '+'; margin-left: auto;
+    width: 28px; height: 28px; border-radius: 50%;
+    border: 1px solid var(--hairline); display: flex; align-items: center; justify-content: center;
+    font-weight: 400; color: var(--ink-2); font-size: 18px;
+    transition: transform .2s;
+  }
+  .faq details[open] summary::after { content: '−'; transform: rotate(180deg); color: var(--amber); border-color: var(--amber); }
+  .faq details > div {
+    margin-top: 14px; color: var(--ink-2); font-size: 15px; line-height: 1.55; max-width: 720px;
+  }
+
+  /* ── CTA strip ──────────────────────────── */
+  .cta-strip {
+    background: var(--bg-deep);
+    border: 1px solid var(--hairline);
+    border-radius: 28px; padding: 56px;
+    position: relative; overflow: hidden;
+    text-align: center;
+  }
+  .cta-strip::before, .cta-strip::after {
+    content: ''; position: absolute; pointer-events: none;
+    border-radius: 50%; opacity: 0.5;
+  }
+  .cta-strip::before {
+    left: -100px; top: -100px; width: 360px; height: 360px;
+    background: radial-gradient(circle, oklch(0.80 0.155 75 / 0.20), transparent 65%);
+  }
+  .cta-strip::after {
+    right: -100px; bottom: -100px; width: 360px; height: 360px;
+    background: radial-gradient(circle, oklch(0.74 0.14 145 / 0.14), transparent 65%);
+  }
+  .cta-strip h2 { font-size: clamp(40px, 5vw, 64px); margin: 0 auto 18px; max-width: 720px; }
+  .cta-strip p { color: var(--ink-2); max-width: 520px; margin: 0 auto 28px; font-size: 17px; }
+  .cta-strip .cta-row { justify-content: center; display: flex; gap: 12px; }
+
+  /* ── Footer ─────────────────────────────── */
+  footer {
+    border-top: 1px solid var(--hairline);
+    padding: 56px 0 40px;
+  }
+  footer .grid {
+    display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 40px;
+    margin-bottom: 40px;
+  }
+  footer h4 { font-family: var(--mono); font-size: 10px; letter-spacing: 1.6px; color: var(--ink-3); text-transform: uppercase; margin: 0 0 16px; font-weight: 500; }
+  footer ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+  footer li a { color: var(--ink-2); font-size: 14px; }
+  footer li a:hover { color: var(--ink); }
+  footer .legal {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 26px; border-top: 1px solid var(--hairline);
+    color: var(--ink-3); font-size: 13px;
+  }
+  footer .legal .links a { margin-left: 22px; }
+
+  /* ── Pricing ────────────────────────────── */
+  .pricing-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px;
+    align-items: stretch;
+  }
+  .plan {
+    background: var(--surface); border: 1px solid var(--hairline);
+    border-radius: 24px; padding: 32px 28px;
+    display: flex; flex-direction: column; gap: 18px;
+    position: relative; overflow: hidden;
+  }
+  .plan.featured {
+    border-color: var(--amber);
+    box-shadow: 0 24px 60px -20px oklch(0.80 0.155 75 / 0.35);
+  }
+  .plan.featured::after {
+    content: ''; position: absolute; right: -120px; top: -120px;
+    width: 320px; height: 320px;
+    background: radial-gradient(circle, oklch(0.80 0.155 75 / 0.18), transparent 65%);
+    pointer-events: none;
+  }
+  .plan .badge {
+    position: absolute; top: 18px; right: 18px;
+    font-family: var(--mono); font-size: 9px; letter-spacing: 1.4px; text-transform: uppercase;
+    background: var(--amber); color: var(--amber-ink);
+    padding: 4px 8px; border-radius: 999px; font-weight: 600;
+  }
+  .plan .name { font-family: var(--display); font-size: 26px; font-weight: 600; letter-spacing: -0.4px; }
+  .plan .desc { color: var(--ink-3); font-size: 13px; margin-top: -8px; }
+  .plan .price { display: flex; align-items: baseline; gap: 8px; margin: 6px 0 4px; }
+  .plan .price .amount {
+    font-family: var(--display); font-weight: 600;
+    font-size: 44px; line-height: 1; letter-spacing: -1.5px;
+  }
+  .plan.featured .price .amount { color: var(--amber); }
+  .plan .price .per { color: var(--ink-3); font-size: 13px; }
+  .plan .price .yearly { color: var(--ink-4); font-size: 12px; margin-left: auto; font-family: var(--mono); letter-spacing: 0.6px; }
+  .plan ul.fts { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+  .plan ul.fts li {
+    font-size: 14px; color: var(--ink-2); line-height: 1.4;
+    display: flex; gap: 10px; align-items: flex-start;
+  }
+  .plan ul.fts li::before {
+    content: ''; flex-shrink: 0; margin-top: 6px;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: var(--amber-dim);
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e0a04a' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='20 6 9 17 4 12'/></svg>");
+    background-size: 10px 10px; background-position: center; background-repeat: no-repeat;
+  }
+  .plan .cta { margin-top: auto; }
+  .plan .cta .btn { width: 100%; justify-content: center; padding: 14px 18px; font-size: 14px; }
+  .pricing-foot {
+    margin-top: 22px; color: var(--ink-3); font-size: 13px; text-align: center;
+  }
+  .pricing-foot a { color: var(--ink-2); border-bottom: 1px dotted var(--hairline); }
+  .pricing-foot a:hover { color: var(--amber); border-color: var(--amber); }
+
+  /* ── Self-host card ─────────────────────── */
+  .selfhost {
+    margin-top: 28px;
+    background: var(--bg-deep);
+    border: 1px solid var(--hairline);
+    border-radius: 24px; padding: 36px;
+    display: grid; grid-template-columns: 1fr 1.1fr; gap: 36px;
+    align-items: center; position: relative; overflow: hidden;
+  }
+  .selfhost::before {
+    content: ''; position: absolute; left: -120px; bottom: -120px;
+    width: 320px; height: 320px;
+    background: radial-gradient(circle, oklch(0.74 0.14 145 / 0.14), transparent 65%);
+    pointer-events: none;
+  }
+  .selfhost h3 {
+    font-family: var(--display); font-size: 28px; font-weight: 600;
+    letter-spacing: -0.4px; margin: 12px 0 12px;
+  }
+  .selfhost p { color: var(--ink-2); font-size: 14px; line-height: 1.55; margin: 0 0 18px; max-width: 480px; }
+  .selfhost .cta-row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .selfhost pre {
+    margin: 0; padding: 22px;
+    background: var(--bg); border: 1px solid var(--hairline);
+    border-radius: 16px;
+    font-family: var(--mono); font-size: 12px; line-height: 1.7;
+    color: var(--ink-2); overflow-x: auto;
+  }
+  .selfhost pre .c { color: var(--ink-4); }
+  .selfhost pre .k { color: var(--amber); }
+  @media (max-width: 920px) {
+    .pricing-grid { grid-template-columns: 1fr; }
+    .selfhost { grid-template-columns: 1fr; padding: 28px; }
+  }
+
+  /* ── Responsive ─────────────────────────── */
+  @media (max-width: 920px) {
+    .hero .grid { grid-template-columns: 1fr; }
+    .device { transform: none; margin: 40px auto 0; }
+    .floating-chips { right: 0; }
+    .features { grid-template-columns: repeat(2, 1fr); grid-auto-rows: auto; }
+    .feature.span-3, .feature.span-2, .feature.span-4 { grid-column: span 2; }
+    .feature.tall { grid-row: auto; min-height: 240px; }
+    .download-row { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: 1fr; }
+    .stats { grid-template-columns: 1fr; }
+    .stat { border-right: none; border-bottom: 1px solid var(--hairline); }
+    .stat:last-child { border-bottom: none; }
+    footer .grid { grid-template-columns: 1fr 1fr; }
+    nav.top .links { display: none; }
+  }
+  @media (max-width: 560px) {
+    .wrap { padding: 0 20px; }
+    nav.top .row { padding: 12px 20px; }
+    section { padding: 70px 0; }
+    .features { grid-template-columns: 1fr; }
+    .feature.span-3, .feature.span-2, .feature.span-4 { grid-column: span 1; }
+    .stats { grid-template-columns: 1fr; }
+    .stat { border-right: none; border-bottom: 1px solid var(--hairline); }
+    .stat:last-child { border-bottom: none; }
+    footer .grid { grid-template-columns: 1fr; }
+    footer .legal { flex-direction: column; gap: 14px; }
+    footer .legal .links a { margin: 0 12px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="row">
+    <a href="#" class="logo">
+      <span class="logo-mark"></span>
+      <span>Junto</span>
+    </a>
+    <div class="links">
+      <a href="#features">Возможности</a>
+      <a href="#how">Как это работает</a>
+      <a href="#pricing">Тарифы</a>
+      <a href="#download">Скачать</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <div class="spacer"></div>
+    <a href="https://github.com/AbobaTeam-Production/junto-frontend" class="btn">GitHub</a>
+    <a href="#download" class="btn primary">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
+      Скачать
+    </a>
+  </div>
+</nav>
+
+<!-- ────── HERO ────── -->
+<header class="hero">
+  <div class="wrap grid">
+    <div>
+      <div class="mono eyebrow">Совместный просмотр · Beta 0.7</div>
+      <h1 class="headline">Кино — это <em>повод</em><br/>встретиться.</h1>
+      <p class="lede">
+        Junto собирает друзей в одной комнате: синхронный плеер, голос без эха, реакции в реальном времени. Файл, торрент, Rutube — приносите что хотите, мы перемелем в общий поток.
+      </p>
+      <div class="cta-row">
+        <a href="#download" class="btn primary xl">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
+          Скачать APK · 24 МБ
+        </a>
+        <a href="#download" class="btn xl">
+          Скачать для Windows
+        </a>
+      </div>
+      <div class="meta">
+        <span>Android 8+ · Windows 10/11</span>
+        <span class="dot">·</span>
+        <span><b>Без рекламы</b></span>
+      </div>
+    </div>
+
+    <div style="position: relative;">
+      <div class="device">
+        <div class="scr">
+          <div class="device-pad">
+            <div class="cinema">
+              <div class="live-tag"><span></span> Live · 4 в комнате</div>
+              <div class="sub">«Сейчас будет тот самый момент»</div>
+            </div>
+            <div class="seats">
+              <div class="seat"><div class="av s1">А</div><div class="ground"></div></div>
+              <div class="seat"><div class="av s2">М</div><div class="ground"></div></div>
+              <div class="seat"><div class="av s3">К</div><div class="ground"></div></div>
+              <div class="seat"><div class="av s4">Л</div><div class="ground"></div></div>
+            </div>
+            <div class="device-meta">Комната · AURORA-7F2</div>
+            <div class="chat-bubble">
+              <b>Аня</b>
+              мощно сняли пустыню 🌵
+            </div>
+            <div class="chat-bubble" style="margin-top: 8px; background: var(--bg-deep);">
+              <b style="color: var(--live);">Кирилл · говорит</b>
+              тссс, сейчас будет
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="floating-chips">
+        <div class="floating-chip">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="oklch(0.74 0.14 145)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4l13 8-13 8V4z" fill="oklch(0.74 0.14 145 / 0.2)"/></svg>
+          <div>
+            <div class="lbl">Android</div>
+            <div class="name">.apk · 24 МБ</div>
+          </div>
+        </div>
+        <div class="floating-chip">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="oklch(0.80 0.155 75)"><path d="M3 5l8-1.2v8.5H3V5zM3 13.5h8V22l-8-1.2v-7.3zM12 3.7L21 2.3v10H12V3.7zM12 13.5h9V22l-9-1.4v-7.1z"/></svg>
+          <div>
+            <div class="lbl">Windows</div>
+            <div class="name">.exe · 64 МБ</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ────── STATS ────── -->
+<section style="padding-top: 0;">
+  <div class="wrap">
+    <div class="stats">
+      <div class="stat">
+        <div class="num">&lt;120ms</div>
+        <div class="lbl">Sync drift</div>
+        <div class="desc">Все смотрят кадр в кадр</div>
+      </div>
+      <div class="stat">
+        <div class="num">8</div>
+        <div class="lbl">Человек в комнате</div>
+        <div class="desc">Голос + видео + чат</div>
+      </div>
+      <div class="stat">
+        <div class="num">4+</div>
+        <div class="lbl">Источника контента</div>
+        <div class="desc">Файл · Torrent · Rutube · HLS</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ────── FEATURES ────── -->
+<section id="features">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="mono eyebrow">Что внутри</div>
+        <h2>Один плеер — <em>на всех.</em></h2>
+        <p class="sub-lede">
+          Никакого «нажмите паузу на счёт три». Junto держит время и видеопоток в синхроне для всей комнаты — а сверху добавляет всё, что делает совместный просмотр живым.
+        </p>
+      </div>
+    </div>
+
+    <div class="features">
+      <!-- Sync — wide -->
+      <div class="feature span-3">
+        <div>
+          <div class="icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M22 12h-4M6 12H2M19 5l-2.8 2.8M7.8 16.2L5 19M19 19l-2.8-2.8M7.8 7.8L5 5"/></svg>
+          </div>
+          <h3 style="margin-top: 18px;">Кадр в кадр.</h3>
+          <p>WebSocket-синхронизация под &lt; 120 мс. Кто-то нажал паузу — пауза у всех, в ту же секунду. Перемотка тоже общая.</p>
+        </div>
+        <div class="sync-vis">
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+        </div>
+      </div>
+
+      <!-- Voice -->
+      <div class="feature span-3">
+        <div>
+          <div class="icon live">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3zM19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"/></svg>
+          </div>
+          <h3 style="margin-top: 18px;">Голос без эха.</h3>
+          <p>WebRTC-канал с автоматическим заглушением источника, когда кто-то говорит. Слышите друг друга, не фильм через друг друга.</p>
+        </div>
+        <div class="voice-vis">
+          <div class="v"></div><div class="v"></div><div class="v"></div><div class="v"></div><div class="v"></div><div class="v"></div><div class="v"></div>
+          <span style="font-family: var(--mono); font-size: 10px; color: var(--live); margin-left: 10px;">КИРИЛЛ · ГОВОРИТ</span>
+        </div>
+      </div>
+
+      <!-- Sources — full -->
+      <div class="feature span-4 dark">
+        <div>
+          <div class="icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18M7 5v4M17 5v4"/></svg>
+          </div>
+          <h3 style="margin-top: 18px;">Любой источник.</h3>
+          <p style="max-width: 460px;">Файл с диска, magnet-ссылка, Rutube, HLS-стрим — всё перемолотим в общий поток без ребуферинга.</p>
+        </div>
+        <div class="sources-strip">
+          <span class="source-pill"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20M9 6V4M15 6V4"/></svg>.mp4 / .mkv</span>
+          <span class="source-pill"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M3 7c5 4 13 4 18 0M3 17c5-4 13-4 18 0"/></svg>magnet</span>
+          <span class="source-pill"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M10 14a4 4 0 0 0 6 0l3-3a4 4 0 0 0-6-6l-1 1M14 10a4 4 0 0 0-6 0l-3 3a4 4 0 0 0 6 6l1-1"/></svg>rutube.ru</span>
+          <span class="source-pill"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 3v12M7 8l5-5 5 5M5 21h14"/></svg>HLS / m3u8</span>
+        </div>
+      </div>
+
+      <!-- Reactions -->
+      <div class="feature span-2">
+        <div>
+          <div class="icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/></svg>
+          </div>
+          <h3 style="margin-top: 14px; font-size: 18px;">Живые реакции.</h3>
+          <p>Эмодзи, пролетающие через экран в момент сцены.</p>
+        </div>
+        <div class="react-row">
+          <div class="react-bubble">🔥</div>
+          <div class="react-bubble">😂</div>
+          <div class="react-bubble">💀</div>
+          <div class="react-bubble">😭</div>
+          <div class="react-bubble">🙏</div>
+        </div>
+      </div>
+
+      <!-- Queue -->
+      <div class="feature span-3">
+        <div>
+          <div class="icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M3 12h18M3 18h12M21 16v6M18 19h6"/></svg>
+          </div>
+          <h3 style="margin-top: 16px;">Общая очередь.</h3>
+          <p>Каждый кидает, что хочет. После одного — следующее.</p>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <div style="font-family: var(--mono); font-size: 10px; color: var(--ink-3); display: flex; align-items: center; gap: 8px;">
+            <span style="background: var(--amber); color: var(--amber-ink); padding: 2px 6px; border-radius: 4px; font-weight: 600;">NOW</span>
+            <span>Past Lives · 2023</span>
+          </div>
+          <div style="font-family: var(--mono); font-size: 10px; color: var(--ink-3); display: flex; align-items: center; gap: 8px; padding-left: 8px;">
+            <span style="color: var(--ink-4);">02 →</span>
+            <span style="color: var(--ink-2);">Aftersun · 2022</span>
+            <span style="color: var(--ink-4); margin-left: auto;">+5</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Invite -->
+      <div class="feature span-3">
+        <div>
+          <div class="icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM19 8v6M16 11h6"/></svg>
+          </div>
+          <h3 style="margin-top: 18px;">Код-приглашение.</h3>
+          <p>Шесть символов вместо ссылки — называется голосом, набирается за пять секунд.</p>
+        </div>
+        <div style="font-family: var(--mono); font-size: 32px; font-weight: 600; letter-spacing: 6px; color: var(--amber);">
+          AURORA
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ────── HOW ────── -->
+<section id="how" style="background: var(--bg-deep); border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline);">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="mono eyebrow">Как это работает</div>
+        <h2>За три шага<br/>до <em>«поехали».</em></h2>
+      </div>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <h3>Откройте Junto.</h3>
+        <p>Скачайте APK или EXE, войдите по почте. Профиль за 20 секунд, без подтверждений по СМС.</p>
+        <div class="tag"><span style="width: 6px; height: 6px; border-radius: 50%; background: var(--amber);"></span>0:20</div>
+      </div>
+      <div class="step">
+        <h3>Создайте комнату.</h3>
+        <p>Бросьте файл, magnet-ссылку или URL Rutube. Junto подготовит общий поток и выдаст код.</p>
+        <div class="tag"><span style="width: 6px; height: 6px; border-radius: 50%; background: var(--amber);"></span>0:30</div>
+      </div>
+      <div class="step">
+        <h3>Позовите своих.</h3>
+        <p>Скиньте код «AURORA» в чат или продиктуйте по телефону. Друзья заходят — и плеер уже синхронен.</p>
+        <div class="tag"><span style="width: 6px; height: 6px; border-radius: 50%; background: var(--amber);"></span>0:10</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ────── PRICING ────── -->
+<section id="pricing">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="mono eyebrow">Тарифы</div>
+        <h2>Базовое — бесплатно.<br/>Серьёзно — <em>в Pro.</em></h2>
+        <p class="sub-lede">
+          Совместный просмотр доступен всем. Платим за то, что упирается в инфраструктуру: размер комнаты, голос без эха, история без лимита.
+        </p>
+      </div>
+    </div>
+
+    <div class="pricing-grid">
+      <div class="plan">
+        <div class="name">Junto Basic</div>
+        <div class="desc">Начните бесплатно</div>
+        <div class="price">
+          <span class="amount">0 ₽</span>
+          <span class="per">/ навсегда</span>
+        </div>
+        <ul class="fts">
+          <li>До 2 гостей в комнате</li>
+          <li>Голосовой канал, базовое качество</li>
+          <li>6 часов совместного просмотра в неделю</li>
+          <li>История просмотров — 30 дней</li>
+          <li>Реклама в подборках</li>
+        </ul>
+        <div class="cta">
+          <a href="#download" class="btn lg">Скачать бесплатно</a>
+        </div>
+      </div>
+
+      <div class="plan featured">
+        <span class="badge">Хит</span>
+        <div class="name">Junto Pro</div>
+        <div class="desc">Для регулярных вечеров</div>
+        <div class="price">
+          <span class="amount">199 ₽</span>
+          <span class="per">/ месяц</span>
+          <span class="yearly">или 1 990 ₽ / год</span>
+        </div>
+        <ul class="fts">
+          <li>До 10 гостей в комнате</li>
+          <li>Без рекламы</li>
+          <li>Без лимита часов</li>
+          <li>История просмотров навсегда</li>
+          <li>Кастомные подборки и приоритет в очереди</li>
+          <li>HD/4K passthrough</li>
+        </ul>
+        <div class="cta">
+          <a href="junto://billing/plans?plan=pro" class="btn primary lg" data-plan="pro">Открыть в Junto</a>
+        </div>
+      </div>
+
+      <div class="plan">
+        <div class="name">Junto Cinema</div>
+        <div class="desc">Для больших компаний</div>
+        <div class="price">
+          <span class="amount">499 ₽</span>
+          <span class="per">/ месяц</span>
+          <span class="yearly">или 4 990 ₽ / год</span>
+        </div>
+        <ul class="fts">
+          <li>Всё из Pro</li>
+          <li>До 25 гостей в комнате</li>
+          <li>Темы оформления комнат</li>
+          <li>Watch-party события с push-приглашениями</li>
+          <li>Студийный битрейт LiveKit</li>
+          <li>Кураторские эксклюзивные подборки</li>
+        </ul>
+        <div class="cta">
+          <a href="junto://billing/plans?plan=cinema" class="btn lg" data-plan="cinema">Открыть в Junto</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="pricing-foot">
+      Нет приложения? <a href="https://app.juntoapp.tech/billing/plans">Открыть в браузере</a> ·
+      Self-host получает все Pro-возможности — <a href="#selfhost">разверните у себя</a>.
+    </div>
+  </div>
+</section>
+
+<!-- ────── DOWNLOAD ────── -->
+<section id="download">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="mono eyebrow">Скачать · v0.7.2</div>
+        <h2>Junto на твоём <em>устройстве.</em></h2>
+        <p class="sub-lede">
+          Бета-релиз. Open source, под капотом — Flutter и WebRTC. Установка прямой загрузкой, без сторов.
+        </p>
+      </div>
+    </div>
+
+    <div class="download-row">
+      <div class="dl-card android">
+        <div class="dl-head">
+          <div class="platform-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="oklch(0.74 0.14 145)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 16V9a7 7 0 0 1 14 0v7H5z" fill="oklch(0.74 0.14 145 / 0.18)"/>
+              <circle cx="9" cy="13" r="0.6" fill="currentColor"/>
+              <circle cx="15" cy="13" r="0.6" fill="currentColor"/>
+              <path d="M7 7l-2-3M17 7l2-3M5 16h14M7 16v3a1 1 0 0 0 1 1h1v-4M15 16v4h1a1 1 0 0 0 1-1v-3M3 11v4M21 11v4"/>
+            </svg>
+          </div>
+          <div>
+            <div class="name">Android</div>
+            <div class="sub">Прямая загрузка APK</div>
+          </div>
+        </div>
+        <div class="dl-meta">
+          <div><span class="k">Размер</span><span class="v">24 МБ</span></div>
+          <div><span class="k">Версия</span><span class="v">0.7.2</span></div>
+          <div><span class="k">Требует</span><span class="v">Android 8+</span></div>
+        </div>
+        <div class="dl-foot">
+          <a class="btn primary lg" href="https://github.com/AbobaTeam-Production/junto-frontend/releases/latest/download/junto-android.apk">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
+            Скачать APK
+          </a>
+          <a href="https://github.com/AbobaTeam-Production/junto-frontend/releases/latest/download/junto-android.apk.sha256" class="ghost btn">SHA-256</a>
+          <a href="https://github.com/AbobaTeam-Production/junto-frontend/releases" class="ghost btn">Все версии</a>
+        </div>
+      </div>
+
+      <div class="dl-card windows">
+        <div class="dl-head">
+          <div class="platform-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="oklch(0.80 0.155 75)"><path d="M3 5l8-1.2v8.5H3V5zM3 13.5h8V22l-8-1.2v-7.3zM12 3.7L21 2.3v10H12V3.7zM12 13.5h9V22l-9-1.4v-7.1z"/></svg>
+          </div>
+          <div>
+            <div class="name">Windows</div>
+            <div class="sub">Установщик .exe</div>
+          </div>
+        </div>
+        <div class="dl-meta">
+          <div><span class="k">Размер</span><span class="v">64 МБ</span></div>
+          <div><span class="k">Версия</span><span class="v">0.7.2</span></div>
+          <div><span class="k">Требует</span><span class="v">Win 10/11</span></div>
+        </div>
+        <div class="dl-foot">
+          <a class="btn primary lg" href="https://github.com/AbobaTeam-Production/junto-frontend/releases/latest/download/junto-windows-setup.exe">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
+            Скачать .exe
+          </a>
+          <a href="https://github.com/AbobaTeam-Production/junto-frontend/releases/latest/download/junto-windows-setup.exe.sha256" class="ghost btn">SHA-256</a>
+          <a href="https://github.com/AbobaTeam-Production/junto-frontend/releases/latest/download/junto-windows-portable.zip" class="ghost btn">portable .zip</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="other-platforms">
+      <span class="mono" style="color: var(--ink-3);">Другие платформы:</span>
+      <a href="https://github.com/AbobaTeam-Production/junto-frontend/releases/latest/download/junto-linux.AppImage">Linux · .AppImage</a>
+      <a href="https://app.juntoapp.tech">Web-версия</a>
+      <span style="color: var(--ink-4);">macOS · скоро</span>
+      <span style="color: var(--ink-4);">iOS · скоро</span>
+    </div>
+
+    <!-- ────── SELF-HOST ────── -->
+    <div class="selfhost" id="selfhost">
+      <div>
+        <div class="mono eyebrow">Developer Edition</div>
+        <h3>Хочешь свой инстанс — <em style="color: var(--amber); font-style: italic; font-weight: 500;">разверни у себя.</em></h3>
+        <p>
+          Backend под AGPL, фронт под MIT. Свой VPS, свой LiveKit, свой контроль трафика — без ограничений тарифа. Self-hoster получает все Pro-возможности по умолчанию.
+        </p>
+        <div class="cta-row">
+          <a href="https://github.com/AbobaTeam-Production/junto-backend#self-hosting" class="btn primary lg">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg>
+            Открыть на GitHub
+          </a>
+          <a href="https://github.com/AbobaTeam-Production/junto-frontend" class="btn lg">junto-frontend</a>
+          <a href="https://github.com/AbobaTeam-Production/junto-backend" class="btn lg">junto-backend</a>
+        </div>
+      </div>
+      <pre><span class="c"># clone &amp; bring up the stack</span>
+git clone https://github.com/<span class="k">AbobaTeam-Production</span>/junto-backend
+cd junto-backend
+cp .env.example .env  <span class="c"># LIVEKIT_KEYS, TMDB_*, FCM_*</span>
+docker compose up -d  <span class="c"># django + postgres + redis + livekit</span>
+
+<span class="c"># point your DNS:</span>
+api.example.tld      → 127.0.0.1:8000
+livekit.example.tld  → 127.0.0.1:7880  <span class="c"># + UDP 7882</span></pre>
+    </div>
+  </div>
+</section>
+
+<!-- ────── FAQ ────── -->
+<section id="faq">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="mono eyebrow">Частые вопросы</div>
+        <h2>Кратко <em>и по делу.</em></h2>
+      </div>
+    </div>
+    <div class="faq">
+      <details open>
+        <summary>Сколько это стоит?</summary>
+        <div>
+          Базовый совместный просмотр — бесплатно: до 2 гостей в комнате, голос, синхрон, история 30 дней. Junto Pro — 199 ₽/мес (1 990 ₽/год): до 10 гостей, без рекламы, без лимита часов, история навсегда. Cinema — 499 ₽/мес: до 25 гостей, темы, watch-party события. <a href="#pricing" style="color: var(--amber); border-bottom: 1px dotted var(--amber);">Подробнее в тарифах</a>.
+        </div>
+      </details>
+      <details>
+        <summary>Можно развернуть у себя на сервере?</summary>
+        <div>
+          Да. Backend и frontend на GitHub под открытыми лицензиями. Поднимаете docker-compose с Postgres / Redis / LiveKit, прописываете DNS — и получаете полный аналог managed-инстанса. Self-host автоматически включает все Pro-возможности. <a href="#selfhost" style="color: var(--amber); border-bottom: 1px dotted var(--amber);">Инструкция в блоке Self-host</a>.
+        </div>
+      </details>
+      <details>
+        <summary>Откуда стримятся фильмы и есть ли пиратство?</summary>
+        <div>Junto не хостит контент. Это плеер с синхронизацией: вы приносите файл с диска, magnet-ссылку или URL — приложение лишь проигрывает. Ответственность за источники остаётся на пользователях.</div>
+      </details>
+      <details>
+        <summary>Сколько человек помещается в комнату?</summary>
+        <div>Сейчас комфортно до 8 человек одновременно с голосом и видеопотоком. Без голоса — больше. Лимит мы держим, чтобы голосовой канал не хрипел на слабых соединениях.</div>
+      </details>
+      <details>
+        <summary>Работает на старых телефонах?</summary>
+        <div>Минимум — Android 8.0. На устройствах 2018+ годов идёт без проблем. На совсем старых может тормозить декодинг 4K, но 1080p тянут почти все.</code></div>
+      </details>
+      <details>
+        <summary>А если у нас разный интернет?</summary>
+        <div>Junto адаптивно подстраивает битрейт под самого медленного в комнате — лучше пусть все смотрят 720p синхронно, чем кто-то отстанет. По желанию можно отключить адаптацию в настройках.</div>
+      </details>
+      <details>
+        <summary>Где исходники и как помочь?</summary>
+        <div>Репозиторий — на <a href="https://github.com/AbobaTeam-Production/junto-frontend" style="color: var(--amber); border-bottom: 1px dotted var(--amber);">GitHub</a>. Pull request'ы, баги и идеи приветствуются. Особенно нужны переводчики и тестировщики на iOS.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ────── BOTTOM CTA ────── -->
+<section style="padding-top: 0;">
+  <div class="wrap">
+    <div class="cta-strip">
+      <div class="mono eyebrow" style="position: relative;">⌘ Готовы начать?</div>
+      <h2>Соберите своих <em>сегодня вечером.</em></h2>
+      <p>Установка — 30 секунд. Первая комната — ещё минута. После — только кино и друзья.</p>
+      <div class="cta-row" style="position: relative;">
+        <a href="#download" class="btn primary xl">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
+          Скачать APK
+        </a>
+        <a href="#download" class="btn xl">Скачать .exe</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ────── FOOTER ────── -->
+<footer>
+  <div class="wrap">
+    <div class="grid">
+      <div>
+        <a href="#" class="logo" style="margin-bottom: 14px;">
+          <span class="logo-mark"></span>
+          <span>Junto</span>
+        </a>
+        <p style="color: var(--ink-3); font-size: 14px; max-width: 320px; margin: 4px 0 18px;">
+          Совместный просмотр кино с друзьями. Open source, MIT-лицензия.
+        </p>
+        <div style="display: flex; gap: 10px;">
+          <a href="https://github.com/AbobaTeam-Production/junto-frontend" class="btn" style="padding: 8px 12px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg>
+            GitHub
+          </a>
+          <a href="#" class="btn" style="padding: 8px 12px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24zm5.6 8.3l-1.9 8.9c-.1.6-.5.8-1.1.5l-3-2.2-1.5 1.4c-.2.2-.3.3-.6.3l.2-3.2 5.7-5.2c.2-.2 0-.3-.4-.1L7.9 13.2 4.8 12.2c-.7-.2-.7-.7.2-1l11.5-4.4c.6-.2 1.1.1.9 1z"/></svg>
+            Telegram
+          </a>
+        </div>
+      </div>
+      <div>
+        <h4>Продукт</h4>
+        <ul>
+          <li><a href="#features">Возможности</a></li>
+          <li><a href="#how">Как это работает</a></li>
+          <li><a href="#pricing">Тарифы</a></li>
+          <li><a href="#download">Скачать</a></li>
+          <li><a href="https://app.juntoapp.tech">Открыть Web</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Разработчикам</h4>
+        <ul>
+          <li><a href="https://github.com/AbobaTeam-Production/junto-frontend">junto-frontend</a></li>
+          <li><a href="https://github.com/AbobaTeam-Production/junto-backend">junto-backend</a></li>
+          <li><a href="#selfhost">Self-host</a></li>
+          <li><a href="https://github.com/AbobaTeam-Production/junto-frontend/releases">Релизы</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Сообщество</h4>
+        <ul>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="https://github.com/AbobaTeam-Production/junto-frontend/issues">Сообщить о баге</a></li>
+          <li><a href="https://github.com/orgs/AbobaTeam-Production/discussions">Discussions</a></li>
+          <li><a href="#">Boosty</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="legal">
+      <span class="mono">© 2026 Junto · AbobaTeam · MIT / AGPL-3.0</span>
+      <div class="links">
+        <a href="/privacy.html">Privacy</a>
+        <a href="/terms.html">Terms</a>
+        <a href="https://github.com/AbobaTeam-Production">GitHub</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // smooth-scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const id = a.getAttribute('href').slice(1);
+      if (!id) return;
+      const el = document.getElementById(id);
+      if (!el) return;
+      e.preventDefault();
+      window.scrollTo({ top: el.offsetTop - 70, behavior: 'smooth' });
+    });
+  });
+</script>
+</body>
+</html>
