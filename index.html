@@ -271,9 +271,14 @@
   }
   .feature {
     background: var(--surface); border: 1px solid var(--hairline);
-    border-radius: 22px; padding: 24px;
+    border-radius: 22px;
+    /* Slightly larger bottom padding so the bottom-anchored content
+       (source pills, voice meter, queue list…) keeps clear of the
+       card border instead of touching it. */
+    padding: 24px 24px 28px;
     position: relative; overflow: hidden;
     display: flex; flex-direction: column; justify-content: space-between;
+    gap: 18px;
   }
   .feature.span-3 { grid-column: span 3; }
   .feature.span-2 { grid-column: span 2; }
