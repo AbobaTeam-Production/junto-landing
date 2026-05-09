@@ -6,6 +6,18 @@
 <title>Junto — смотрим вместе</title>
 <!-- Inline SVG favicon — same amber-circle-with-J as the nav logo, no extra HTTP request -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23e8a04a'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='-apple-system,Segoe UI,Inter,sans-serif' font-size='18' font-weight='700' fill='%23362811'%3EJ%3C/text%3E%3C/svg%3E"/>
+<meta name="description" content="Junto — синхронный совместный просмотр кино с друзьями. Один плеер на всю комнату, голос без эха, реакции в реальном времени."/>
+<meta name="theme-color" content="#1a1814"/>
+<!-- Open Graph for Telegram / WhatsApp / Discord previews -->
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="Junto — смотрим вместе"/>
+<meta property="og:description" content="Синхронный плеер для всей комнаты. Голос без эха, реакции, общая очередь."/>
+<meta property="og:url" content="https://juntoapp.tech"/>
+<meta property="og:site_name" content="Junto"/>
+<meta property="og:locale" content="ru_RU"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Junto — смотрим вместе"/>
+<meta name="twitter:description" content="Синхронный плеер для всей комнаты. Голос без эха, реакции, общая очередь."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
@@ -84,19 +96,28 @@
   .btn:hover { border-color: var(--ink-3); }
   .btn.primary {
     background: var(--amber); color: var(--amber-ink);
-    /* `border: none` instead of transparent — the latter still
-       reserves 1px of layout that flickered as a dark line on top
-       and bottom of the button against the warm-dark background.   */
-    border: none;
+    /* Match the base .btn 1px border so the button doesn't shift
+       size, but colour the border the same as the fill — otherwise
+       the inherited hairline / ink-3 colour shows through as dark
+       lines top and bottom of every CTA on the warm-dark page. */
+    border: 1px solid var(--amber);
     box-shadow: 0 8px 24px -8px oklch(0.80 0.155 75 / 0.5);
   }
   .btn.primary:hover {
     transform: translateY(-1px);
     box-shadow: 0 12px 32px -8px oklch(0.80 0.155 75 / 0.6);
-    border: none;
+    border-color: var(--amber);
   }
   .btn.lg { padding: 14px 22px; font-size: 14px; }
   .btn.xl { padding: 18px 26px; font-size: 15px; border-radius: 14px; }
+  .btn .size-tag {
+    /* File size pulled at runtime from GitHub Release API. Empty
+       until the fetch resolves so the layout doesn't shift after
+       a slow API response. */
+    font-family: var(--mono); font-size: 0.85em; opacity: 0.75;
+  }
+  .btn .size-tag:empty { display: none; }
+  .btn.primary .size-tag { color: var(--amber-ink); }
 
   /* ── Hero ─────────────────────────────────── */
   .hero {
@@ -647,21 +668,21 @@
       <div class="mono eyebrow">Совместный просмотр · Beta 0.7</div>
       <h1 class="headline">Кино — это <em>повод</em><br/>встретиться.</h1>
       <p class="lede">
-        Junto собирает друзей в одной комнате: синхронный плеер, голос без эха, реакции в реальном времени. Файл, торрент, Rutube — приносите что хотите, мы перемелем в общий поток.
+        Один плеер на всю комнату. Голос без эха, реакции в реальном времени, общая очередь. Несите файл, magnet или Rutube — Junto соберёт в один синхронный поток.
       </p>
       <div class="cta-row">
-        <a href="#download" class="btn primary xl">
+        <a href="https://github.com/AbobaTeam-Production/junto-frontend/releases/latest/download/junto-android.apk" class="btn primary xl" data-junto-asset="junto-android.apk">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
-          Скачать APK · 24 МБ
+          Скачать APK&nbsp;<span class="size-tag" data-junto-asset-size="junto-android.apk"></span>
         </a>
-        <a href="#download" class="btn xl">
-          Скачать для Windows
+        <a href="https://github.com/AbobaTeam-Production/junto-frontend/releases/latest/download/junto-windows-setup.exe" class="btn xl" data-junto-asset="junto-windows-setup.exe">
+          Скачать для Windows&nbsp;<span class="size-tag" data-junto-asset-size="junto-windows-setup.exe"></span>
         </a>
       </div>
       <div class="meta">
         <span>Android 8+ · Windows 10/11</span>
         <span class="dot">·</span>
-        <span><b>Без рекламы</b></span>
+        <span>Open source</span>
       </div>
     </div>
 
@@ -712,7 +733,7 @@
 </header>
 
 <!-- ────── STATS ────── -->
-<section style="padding-top: 0;">
+<section style="padding-top: 30px;">
   <div class="wrap">
     <div class="stats">
       <div class="stat">
@@ -726,9 +747,9 @@
         <div class="desc">Голос + видео + чат</div>
       </div>
       <div class="stat">
-        <div class="num">4+</div>
+        <div class="num">3</div>
         <div class="lbl">Источника контента</div>
-        <div class="desc">Файл · Torrent · Rutube · HLS</div>
+        <div class="desc">Файл · Torrent · Rutube</div>
       </div>
 
     </div>
@@ -789,7 +810,7 @@
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18M7 5v4M17 5v4"/></svg>
           </div>
           <h3 style="margin-top: 18px;">Любой источник.</h3>
-          <p style="max-width: 460px;">Файл с диска, magnet-ссылка, Rutube, HLS-стрим — всё перемолотим в общий поток без ребуферинга.</p>
+          <p style="max-width: 460px;">Файл с диска, magnet-ссылка, Rutube — всё сводится в один синхронный поток без ребуферинга.</p>
         </div>
         <div class="sources-strip">
           <span class="source-pill"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20M9 6V4M15 6V4"/></svg>.mp4 / .mkv</span>
@@ -998,7 +1019,7 @@
           </div>
         </div>
         <div class="dl-meta">
-          <div><span class="k">Размер</span><span class="v">24 МБ</span></div>
+          <div><span class="k">Размер</span><span class="v" data-junto-asset-size="junto-android.apk">~24 МБ</span></div>
           <div><span class="k">Версия</span><span class="v"><span data-junto-version>0.7.2</span></span></div>
           <div><span class="k">Требует</span><span class="v">Android 8+</span></div>
         </div>
@@ -1023,7 +1044,7 @@
           </div>
         </div>
         <div class="dl-meta">
-          <div><span class="k">Размер</span><span class="v">64 МБ</span></div>
+          <div><span class="k">Размер</span><span class="v" data-junto-asset-size="junto-windows-setup.exe">~64 МБ</span></div>
           <div><span class="k">Версия</span><span class="v"><span data-junto-version>0.7.2</span></span></div>
           <div><span class="k">Требует</span><span class="v">Win 10/11</span></div>
         </div>
@@ -1204,22 +1225,38 @@ livekit.example.tld  → 127.0.0.1:7880  <span class="c"># + UDP 7882</span></pr
 </footer>
 
 <script>
-  // Pull the latest release tag from GitHub once on load and write it
-  // into every [data-junto-version] node, so the landing doesn't have
-  // to be hand-edited whenever frontend tags v0.7.4, v0.8.0, etc.
-  // Cached for 5 min via the GitHub CDN; one extra request per visit.
+  // Pull the latest release from GitHub once on load and feed it into
+  // every [data-junto-version] / [data-junto-asset-size] node, so the
+  // landing never has to be hand-edited when the frontend re-tags.
+  // One request, ~5 KB, cached at the GitHub CDN.
+  const fmtBytes = b => {
+    if (!b) return '';
+    const mb = b / 1048576;
+    return mb >= 1 ? `${mb.toFixed(0)} МБ` : `${(b / 1024).toFixed(0)} КБ`;
+  };
   fetch('https://api.github.com/repos/AbobaTeam-Production/junto-frontend/releases/latest', {
     headers: { 'Accept': 'application/vnd.github+json' }
   })
     .then(r => r.ok ? r.json() : null)
     .then(j => {
-      if (!j || !j.tag_name) return;
-      const v = j.tag_name.replace(/^v/, '');
-      document.querySelectorAll('[data-junto-version]').forEach(el => {
-        el.textContent = v;
+      if (!j) return;
+      // Version
+      if (j.tag_name) {
+        const v = j.tag_name.replace(/^v/, '');
+        document.querySelectorAll('[data-junto-version]').forEach(el => {
+          el.textContent = v;
+        });
+      }
+      // Asset sizes — keyed by filename
+      const sizeByName = Object.fromEntries(
+        (j.assets || []).map(a => [a.name, a.size])
+      );
+      document.querySelectorAll('[data-junto-asset-size]').forEach(el => {
+        const size = sizeByName[el.dataset.juntoAssetSize];
+        if (size) el.textContent = fmtBytes(size);
       });
     })
-    .catch(() => { /* leave the hardcoded fallback */ });
+    .catch(() => { /* leave the hardcoded fallbacks */ });
 
   // smooth-scroll for anchor links
   document.querySelectorAll('a[href^="#"]').forEach(a => {
