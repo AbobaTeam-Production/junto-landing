@@ -267,18 +267,16 @@
   /* ── Features bento ──────────────────────── */
   .features {
     display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px;
-    grid-auto-rows: 220px;
+    /* 220 was tight: with the source-pills row + extended copy on the
+       'Любой источник' card the pills overflowed past the bottom of
+       the box. 248 leaves comfortable breathing room. */
+    grid-auto-rows: 248px;
   }
   .feature {
     background: var(--surface); border: 1px solid var(--hairline);
-    border-radius: 22px;
-    /* Slightly larger bottom padding so the bottom-anchored content
-       (source pills, voice meter, queue list…) keeps clear of the
-       card border instead of touching it. */
-    padding: 24px 24px 28px;
+    border-radius: 22px; padding: 24px;
     position: relative; overflow: hidden;
     display: flex; flex-direction: column; justify-content: space-between;
-    gap: 18px;
   }
   .feature.span-3 { grid-column: span 3; }
   .feature.span-2 { grid-column: span 2; }
