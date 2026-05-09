@@ -43,6 +43,9 @@
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; }
+  /* Sticky header is ~64 px tall; without scroll-margin every #anchor
+     jump leaves the target hidden behind it. */
+  [id] { scroll-margin-top: 80px; }
   body {
     background: var(--bg);
     color: var(--ink);
@@ -308,9 +311,12 @@
   .sync-vis .bar:nth-child(5) { height: 30px; opacity: 0.4; }
 
   /* Sources strip — needs breathing room from the paragraph above,
-     otherwise the pills crowd the body copy. */
+     and the pills look unbalanced when only 3 of them sit hard
+     against the left edge of the wide feature card. Justify-around
+     spreads them across the full width. */
   .sources-strip {
     display: flex; gap: 18px; flex-wrap: wrap;
+    justify-content: space-around;
     margin-top: 18px;
   }
   .source-pill {
@@ -1129,15 +1135,11 @@ livekit.example.tld  → 127.0.0.1:7880  <span class="c"># + UDP 7882</span></pr
       </details>
       <details>
         <summary>Работает на старых телефонах?</summary>
-        <div>Минимум — Android 8.0. На устройствах 2018+ годов идёт без проблем. На совсем старых может тормозить декодинг 4K, но 1080p тянут почти все.</code></div>
-      </details>
-      <details>
-        <summary>А если у нас разный интернет?</summary>
-        <div>Junto адаптивно подстраивает битрейт под самого медленного в комнате — лучше пусть все смотрят 720p синхронно, чем кто-то отстанет. По желанию можно отключить адаптацию в настройках.</div>
+        <div>Минимум — Android 8.0. На устройствах 2018+ годов идёт без проблем. На совсем старых может тормозить декодинг 4K, но 1080p тянут почти все.</div>
       </details>
       <details>
         <summary>Где исходники и как помочь?</summary>
-        <div>Репозиторий — на <a href="https://github.com/AbobaTeam-Production/junto-frontend" style="color: var(--amber); border-bottom: 1px dotted var(--amber);">GitHub</a>. Pull request'ы, баги и идеи приветствуются. Особенно нужны переводчики и тестировщики на iOS.</div>
+        <div>Репозиторий — на <a href="https://github.com/AbobaTeam-Production" style="color: var(--amber); border-bottom: 1px dotted var(--amber);">GitHub</a>. Pull request'ы, баги и идеи приветствуются.</div>
       </details>
     </div>
   </div>

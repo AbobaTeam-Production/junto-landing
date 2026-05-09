@@ -4,6 +4,16 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # Refresh the landing whenever the frontend tags a release —
+  # release.yml in junto-frontend posts a repository_dispatch with
+  # type 'release-published' to trigger this.
+  repository_dispatch:
+    types: [release-published]
+  # Daily safety net so the version sticker never lags more than 24h
+  # behind the actual latest release, even if the cross-repo dispatch
+  # was missed.
+  schedule:
+    - cron: '17 4 * * *'
 
 permissions:
   contents: read
@@ -22,6 +32,41 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+
+      # Pull the latest junto-frontend release info and bake the
+      # version + asset sizes straight into index.html. The runtime
+      # JS fetch is still there as a fallback for between deploys.
+      - name: Inject release info
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          REL=$(gh release view --repo AbobaTeam-Production/junto-frontend \
+                  --json tagName,assets || echo '')
+          if [[ -z "$REL" ]]; then
+            echo "no release yet — skipping injection"
+            exit 0
+          fi
+          version=$(echo "$REL" | jq -r '.tagName' | sed 's/^v//')
+          apk=$(echo "$REL" | jq -r '.assets[] | select(.name=="junto-android.apk") | .size // empty')
+          exe=$(echo "$REL" | jq -r '.assets[] | select(.name=="junto-windows-setup.exe") | .size // empty')
+          mb() { python3 -c "import sys; b=int(sys.argv[1]); print(f'{b/1048576:.0f} МБ')" "$1"; }
+
+          echo "version=$version  apk=${apk:-?}  exe=${exe:-?}"
+
+          # version — replace inner text of every <span data-junto-version>…</span>
+          sed -i -E "s|(<span data-junto-version>)[^<]*(</span>)|\1${version}\2|g" index.html
+
+          # asset sizes — same pattern, keyed by data-junto-asset-size
+          if [[ -n "$apk" ]]; then
+            APK_LABEL=$(mb "$apk")
+            sed -i -E "s|(data-junto-asset-size=\"junto-android\.apk\"[^>]*>)[^<]*(<)|\1${APK_LABEL}\2|g" index.html
+          fi
+          if [[ -n "$exe" ]]; then
+            EXE_LABEL=$(mb "$exe")
+            sed -i -E "s|(data-junto-asset-size=\"junto-windows-setup\.exe\"[^>]*>)[^<]*(<)|\1${EXE_LABEL}\2|g" index.html
+          fi
+
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
