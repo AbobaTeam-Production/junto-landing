@@ -310,13 +310,12 @@
   .sync-vis .bar:nth-child(4) { height: 56px; opacity: 0.6; }
   .sync-vis .bar:nth-child(5) { height: 30px; opacity: 0.4; }
 
-  /* Sources strip — needs breathing room from the paragraph above,
-     and the pills look unbalanced when only 3 of them sit hard
-     against the left edge of the wide feature card. Justify-around
-     spreads them across the full width. */
+  /* Sources strip — 3 pills inside a wide feature card. space-between
+     pins the outer two to the card edges and pushes the middle one
+     to the centre, so the row visually fills the available width. */
   .sources-strip {
     display: flex; gap: 18px; flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: space-between;
     margin-top: 18px;
   }
   .source-pill {
@@ -739,7 +738,7 @@
 </header>
 
 <!-- ────── STATS ────── -->
-<section style="padding-top: 30px;">
+<section style="padding: 60px 0 100px;">
   <div class="wrap">
     <div class="stats">
       <div class="stat">
@@ -1180,7 +1179,7 @@ livekit.example.tld  → 127.0.0.1:7880  <span class="c"># + UDP 7882</span></pr
             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg>
             GitHub
           </a>
-          <a href="#" class="btn" style="padding: 8px 12px;">
+          <a href="https://t.me/abobaclips" class="btn" style="padding: 8px 12px;">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24zm5.6 8.3l-1.9 8.9c-.1.6-.5.8-1.1.5l-3-2.2-1.5 1.4c-.2.2-.3.3-.6.3l.2-3.2 5.7-5.2c.2-.2 0-.3-.4-.1L7.9 13.2 4.8 12.2c-.7-.2-.7-.7.2-1l11.5-4.4c.6-.2 1.1.1.9 1z"/></svg>
             Telegram
           </a>
@@ -1201,7 +1200,7 @@ livekit.example.tld  → 127.0.0.1:7880  <span class="c"># + UDP 7882</span></pr
         <ul>
           <li><a href="https://github.com/AbobaTeam-Production/junto-frontend">junto-frontend</a></li>
           <li><a href="https://github.com/AbobaTeam-Production/junto-backend">junto-backend</a></li>
-          <li><a href="#selfhost">Self-host</a></li>
+          <li><a href="https://github.com/AbobaTeam-Production/junto-backend#self-hosting">Self-host</a></li>
           <li><a href="https://github.com/AbobaTeam-Production/junto-frontend/releases">Релизы</a></li>
         </ul>
       </div>
