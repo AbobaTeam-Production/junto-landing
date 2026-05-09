@@ -310,12 +310,14 @@
   .sync-vis .bar:nth-child(4) { height: 56px; opacity: 0.6; }
   .sync-vis .bar:nth-child(5) { height: 30px; opacity: 0.4; }
 
-  /* Sources strip — 3 pills inside a wide feature card. space-between
-     pins the outer two to the card edges and pushes the middle one
-     to the centre, so the row visually fills the available width. */
+  /* Sources strip — 3 pills sit as a tight cluster centred under the
+     paragraph. space-between/around scattered them across the wide
+     card with awkward empty space; flex-start let them clump on the
+     left with the same hole on the right. Centred cluster reads as
+     a single visual unit. */
   .sources-strip {
-    display: flex; gap: 18px; flex-wrap: wrap;
-    justify-content: space-between;
+    display: flex; gap: 12px; flex-wrap: wrap;
+    justify-content: center;
     margin-top: 18px;
   }
   .source-pill {
